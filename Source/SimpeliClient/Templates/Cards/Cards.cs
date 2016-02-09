@@ -1,9 +1,4 @@
 ﻿using Simpeli.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simpeli.Templates
 {
@@ -31,7 +26,7 @@ namespace Simpeli.Templates
         public string[] images { get; set; }
 
         /// <summary>
-        /// Initialzies new instance of the class.
+        /// Initializes new instance of the class.
         /// </summary>
         public Cards()
         {

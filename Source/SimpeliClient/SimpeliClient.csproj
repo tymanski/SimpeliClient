@@ -47,14 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AddPaymentResponse.cs" />
-    <Compile Include="Classes\NewPaymentIdResponse.cs" />
-    <Compile Include="Classes\SavePdfResponse.cs" />
-    <Compile Include="Classes\CreditsResponse.cs" />
-    <Compile Include="Classes\ErrorResponse.cs" />
-    <Compile Include="Classes\SimpeliException.cs" />
+    <Compile Include="Responses\AddPaymentResponse.cs" />
+    <Compile Include="Responses\NewPaymentIdResponse.cs" />
+    <Compile Include="Responses\SavePdfResponse.cs" />
+    <Compile Include="Responses\CreditsResponse.cs" />
+    <Compile Include="Responses\ErrorResponse.cs" />
+    <Compile Include="Responses\SimpeliException.cs" />
     <Compile Include="ClientBase.cs" />
-    <Compile Include="Classes\ContentType.cs" />
+    <Compile Include="Constants\ContentType.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Interfaces\ISimpeliClient.cs" />
     <Compile Include="Interfaces\ITemplate.cs" />

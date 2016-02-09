@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Simpeli
+﻿namespace Simpeli.Responses
 {
     /// <summary>
-    /// A response from NewPaymentId call.
+    /// Response from NewPaymentId call.
     /// </summary>
     public class NewPaymentIdResponse
     {

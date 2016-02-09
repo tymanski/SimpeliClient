@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Simpeli
+namespace Simpeli.Responses
 {
     /// <summary>
     /// An Exception wrapper class. It is thrown by SimpeliClient when an error is returned by Simpeli API. 
@@ -18,7 +14,7 @@ namespace Simpeli
         public ErrorResponse Error { get; private set; }
 
         /// <summary>
-        /// Initializes new isnatnce of SimpeliException class.
+        /// Initializes new instance of SimpeliException class.
         /// </summary>
         /// <param name="statusCode">A HTTP status code read from the response from API.</param>
         /// <param name="data">Data from the response.</param>

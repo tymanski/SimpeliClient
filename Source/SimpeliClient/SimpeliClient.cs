@@ -1,26 +1,29 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+using Simpeli.Constants;
+using Simpeli.Interfaces;
+using Simpeli.Responses;
 
 namespace Simpeli
 {
     /// <summary>
-    /// A client to communicate with Simpe.li REST API.
+    /// Client to communicate with Simpe.li REST API.
     /// </summary>
     public class SimpeliClient : ClientBase, ISimpeliClient
     {
+        /// <summary>
+        /// The _api URL
+        /// </summary>
         private string _apiUrl;
 
         #region [CONSTRUCTOR]
+
         /// <summary>
         /// Initializes new instance of SimpeliClient.
         /// </summary>
-        /// <param name="apiKey">An apiKey used to authenticate in the API.</param>
+        /// <param name="apiKey">The apiKey used to authenticate in the API.</param>
+        /// <param name="apiUrl">The API URL.</param>
         public SimpeliClient(string apiKey, string apiUrl) : base(apiKey)
         {
             _apiUrl = apiUrl;
@@ -29,10 +32,10 @@ namespace Simpeli
 
         #region [PUBLIC METHODS]
         /// <summary>
-        /// Sending acknowledgement to the system to be charged for a payment identified by <paramref name="paymentId"/>.
+        /// Sending acknowledgment to the system to be charged for a payment identified by <paramref name="paymentId"/>.
         /// </summary>
         /// <param name="paymentId">A payment Id.</param>
-        /// <returns></returns>
+        /// <returns>Response message from API.</returns>
         public AddPaymentResponse AddPayment(string paymentId)
         {
             HttpRequestMessage request = new HttpRequestMessage()
@@ -41,7 +44,7 @@ namespace Simpeli
                 Method = HttpMethod.Post,
             };
 
-            string jsonResult = base.Execute(request, ContentType.APP_JSON);
+            string jsonResult = Execute(request, ContentType.AppJson);
 
             return JsonConvert.DeserializeObject<AddPaymentResponse>(jsonResult);
         }
@@ -49,7 +52,7 @@ namespace Simpeli
         /// <summary>
         /// Returns number of credits available.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Response message from API containing available credits.</returns>
         public CreditsResponse GetCredits()
         {
             //throw new NotImplementedException();
@@ -59,7 +62,7 @@ namespace Simpeli
                 Method = HttpMethod.Get,
             };
 
-            string jsonResult = base.Execute(request, ContentType.APP_JSON);
+            string jsonResult = Execute(request, ContentType.AppJson);
 
             return JsonConvert.DeserializeObject<CreditsResponse>(jsonResult);
         }
@@ -68,7 +71,7 @@ namespace Simpeli
         /// Registers new payment request in the system. 
         /// </summary>
         /// <param name="creditsAmount">Amount of credits to buy.</param>
-        /// <returns></returns>
+        /// <returns>Response message from API containing paymentId.</returns>
         public NewPaymentIdResponse GetNewPaymentId(int creditsAmount)
         {
             HttpRequestMessage request = new HttpRequestMessage()
@@ -77,7 +80,7 @@ namespace Simpeli
                 Method = HttpMethod.Get,
             };
            
-            string jsonResult = base.Execute(request, ContentType.APP_JSON);
+            string jsonResult = Execute(request, ContentType.AppJson);
 
             return JsonConvert.DeserializeObject<NewPaymentIdResponse>(jsonResult);
         }
@@ -88,7 +91,7 @@ namespace Simpeli
         /// <param name="template">Object containing data for a template.</param>
         /// <param name="webhook">An URL to which API will send generated pdf file.</param>
         /// <param name="referenceId">A reference Id of the element.</param>
-        /// <returns></returns>
+        /// <returns>Response message from API.</returns>
         public SavePdfResponse SavePdf(ITemplate template, string webhook, string referenceId)
         {
             // Validate template
@@ -106,7 +109,7 @@ namespace Simpeli
 
             string data = JsonConvert.SerializeObject(template);
 
-            string jsonResult = base.Execute(request, ContentType.APP_JSON, data);
+            string jsonResult = Execute(request, ContentType.AppJson, data);
             return JsonConvert.DeserializeObject<SavePdfResponse>(jsonResult);
         }
         #endregion [PUBLIC METHODS]

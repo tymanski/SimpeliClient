@@ -1,25 +1,22 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using Simpeli.Constants;
+using Simpeli.Responses;
 
 namespace Simpeli
 {
     /// <summary>
-    /// A base class for SimpeliClient.
+    /// Base class for REST clients.
     /// </summary>
     public abstract class ClientBase
     {
         #region [FIELDS]
         /// <summary>
-        /// A HTTP client to perform comunication over HTTP protocol.
+        /// HTTP client to perform communication over HTTP protocol.
         /// </summary>
         private HttpClient _client;
 
@@ -31,9 +28,9 @@ namespace Simpeli
 
         #region [CONSTRUCTOR]
         /// <summary>
-        /// Initailzes new instance of the class.
+        /// Initializes new instance of the class.
         /// </summary>
-        /// <param name="apiKey">An apiKey.</param>
+        /// <param name="apiKey">The Api Key.</param>
         public ClientBase(string apiKey)
         {
             if (String.IsNullOrEmpty(apiKey))
@@ -49,10 +46,10 @@ namespace Simpeli
 
         #region [METHODS]
         /// <summary>
-        /// Central point of SimpeliClient. It executes an http reqquest defined in <paramref name="request"/>, which 
-        /// is fileld with <paramref name="data"/> and set with <paramref name="contentType"/> attribute.
+        /// Central point of the SimpeliClient. Executes the http request defined in <paramref name="request"/>, which 
+        /// is filled with <paramref name="data"/> and set with <paramref name="contentType"/> attribute.
         /// </summary>
-        /// <param name="request">A request object.</param>
+        /// <param name="request">Request object.</param>
         /// <param name="contentType">Data content type.</param>
         /// <param name="data">Data to be sent.</param>
         /// <returns></returns>
@@ -65,7 +62,7 @@ namespace Simpeli
             {
                 request.Content = new StringContent(data);
 
-                request.Content.Headers.ContentType = new MediaTypeHeaderValue(ContentType.APP_JSON);
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue(ContentType.AppJson);
             }
 
             Task<HttpResponseMessage> task = null;
@@ -83,7 +80,15 @@ namespace Simpeli
             }
             catch (HttpRequestException ex)
             {
-                throw new SimpeliException((int)task.Result.StatusCode, task.Result.Content.ReadAsStringAsync().Result, "Simpeli API returned error.", ex);
+                if (task != null)
+                {
+                    throw new SimpeliException((int) task.Result.StatusCode,
+                        task.Result.Content.ReadAsStringAsync().Result, "Simpeli API returned error.", ex);
+                }
+                else
+                {
+                    throw new SimpeliException(500, "Internal Server Error.", "Simpeli API returned error.", ex);
+                }
             }
             catch (Exception ex)
             {
@@ -94,14 +99,14 @@ namespace Simpeli
         }
 
         /// <summary>
-        /// Converts string to Base64,
+        /// Converts <paramref name="plainText"/> string to Base64,
         /// </summary>
-        /// <param name="plainText">A string to be encoded.</param>
+        /// <param name="plainText">String to be encoded.</param>
         /// <returns>Encoded string.</returns>
         private static string Base64Encode(string plainText)
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
         }
         #endregion [METHODS]
     }

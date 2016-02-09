@@ -1,12 +1,12 @@
 ﻿using Simpeli.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simpeli.Templates
 {
+    /// <summary>
+    /// Base class for all Invocie templates.
+    /// </summary>
     public abstract class InvoiceBase : TemplateBase
     {   
         public string invoiceNr { get; set; }
